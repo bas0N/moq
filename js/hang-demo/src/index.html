@@ -30,10 +30,37 @@
 		TODO: Cloudflare doesn't support it yet (SUBSCRIBE_NAMESPACE), so make sure you remove it if you're using Cloudflare.
 	-->
 	<hang-watch-ui>
-		<hang-watch url="%VITE_RELAY_URL%" path="bbb" muted latency="100" reload>
+		<hang-watch id="watch" url="%VITE_RELAY_URL%" path="bbb" muted latency="100" reload>
 			<canvas style="width: 100%; height: auto;"></canvas>
 		</hang-watch>
 	</hang-watch-ui>
+
+	<!-- Connection Settings Form -->
+	<details id="connection-settings" class="connection-settings">
+		<summary>Connection Settings</summary>
+		<form id="config-form">
+			<div class="form-group">
+				<label for="relay-url">Relay URL</label>
+				<div class="input-row">
+					<input
+						type="url"
+						id="relay-url"
+						placeholder="http://localhost:4443/anon"
+						value="%VITE_RELAY_URL%"
+					/>
+					<button type="button" id="discover-btn">Discover</button>
+				</div>
+			</div>
+		<div class="form-group">
+			<label for="broadcast-select">Broadcast</label>
+			<select id="broadcast-select" disabled>
+				<option value="">-- Click Discover to find broadcasts --</option>
+			</select>
+			<small id="discover-status"></small>
+		</div>
+			<button type="submit" id="connect-btn">Connect</button>
+		</form>
+	</details>
 
 	<h3>Other demos:</h3>
 	<ul>
