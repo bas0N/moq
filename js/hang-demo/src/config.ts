@@ -10,6 +10,7 @@ export default class HangConfig extends HTMLElement {
 	#suggestions: HTMLDivElement;
 	#discoveryConnection: Moq.Connection.Established | null = null;
 	#discoveryTimeout: ReturnType<typeof setTimeout> | null = null;
+	#discoveryAbort: AbortController | null = null;
 
 	constructor() {
 		super();
@@ -130,12 +131,24 @@ export default class HangConfig extends HTMLElement {
 			return;
 		}
 
+		// Abort any in-flight discovery to prevent orphaned connections
+		this.#discoveryAbort?.abort();
+		this.#discoveryAbort = new AbortController();
+		const signal = this.#discoveryAbort.signal;
+
 		this.#closeDiscovery();
 		this.#suggestions.innerHTML = '<span style="color: #666;">Discovering...</span>';
 
 		try {
 			const url = new URL(relayUrl);
 			const connection = await Moq.Connection.connect(url);
+
+			// Check if this discovery was aborted while connecting
+			if (signal.aborted) {
+				connection.close();
+				return;
+			}
+
 			this.#discoveryConnection = connection;
 
 			const announced = connection.announced(Moq.Path.empty());
