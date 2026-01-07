@@ -35,32 +35,8 @@
 		</hang-watch>
 	</hang-watch-ui>
 
-	<!-- Connection Settings Form -->
-	<details id="connection-settings" class="connection-settings">
-		<summary>Connection Settings</summary>
-		<form id="config-form">
-			<div class="form-group">
-				<label for="relay-url">Relay URL</label>
-				<div class="input-row">
-					<input
-						type="url"
-						id="relay-url"
-						placeholder="http://localhost:4443/anon"
-						value="%VITE_RELAY_URL%"
-					/>
-					<button type="button" id="discover-btn">Discover</button>
-				</div>
-			</div>
-		<div class="form-group">
-			<label for="broadcast-select">Broadcast</label>
-			<select id="broadcast-select" disabled>
-				<option value="">-- Click Discover to find broadcasts --</option>
-			</select>
-			<small id="discover-status"></small>
-		</div>
-			<button type="submit" id="connect-btn">Connect</button>
-		</form>
-	</details>
+	<!-- Configure the relay URL and broadcast name. Auto-discovers available broadcasts. -->
+	<hang-config id="config" url="%VITE_RELAY_URL%" path="bbb"></hang-config>
 
 	<h3>Other demos:</h3>
 	<ul>
